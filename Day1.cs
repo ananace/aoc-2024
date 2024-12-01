@@ -22,31 +22,10 @@ public class Day1 : IAoC
 
   public void Part1()
   {
-    var orderedLeft = _LeftList.Order();
-    var orderedRight = _RightList.Order();
-    var sum = 0;
-
-    for (int i = 0; i < _LeftList.Count; ++i)
-    {
-      var left = orderedLeft.Skip(i).First();
-      var right = orderedRight.Skip(i).First();
-      var dist = Math.Abs(left - right);
-
-      sum += dist;
-    }
-
-    Console.WriteLine($"Sum: {sum}");
+    Console.WriteLine($"Sum: {_LeftList.Order().Zip(_RightList.Order()).Select(v => Math.Abs(v.First - v.Second)).Sum()}");
   }
   public void Part2()
   {
-    var sum = 0;
-    foreach (var left in _LeftList)
-    {
-      var count = _RightList.Where(i => i == left).Count();
-
-      sum += left * count;
-    }
-
-    Console.WriteLine($"Sum: {sum}");
+    Console.WriteLine($"Sum: {_LeftList.Select(l => _RightList.Where(i => i == l).Count() * l).Sum()}");
   }
 }
