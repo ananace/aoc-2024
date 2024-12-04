@@ -9,15 +9,11 @@ public class Day4 : IAoC
   int width;
   int height;
 
-  bool[] marked = new bool[0];
-
   public void Input(IEnumerable<string> lines)
   {
     wordsearch = string.Join("", lines);
     height = lines.Count();
     width = lines.First().Length;
-
-    marked = new bool[width * height];
   }
 
   public void Part1()
