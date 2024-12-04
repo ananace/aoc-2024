@@ -55,6 +55,12 @@ public class Runner
     var data = File.ReadLines(input);
     day.Input(data.Select(l => l.Trim()));
 
+    if (day.GetType().GetMethod("PreCalc") is MethodInfo meth)
+    {
+      Console.WriteLine("- Running pre-calculate...");
+      meth.Invoke(day, null);
+    }
+
     Console.WriteLine("- Part 1...");
     day.Part1();
     Console.WriteLine("- Part 2...");
