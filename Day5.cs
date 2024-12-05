@@ -4,33 +4,23 @@ public class Day5 : IAoC
 {
   public int Day => 5;
 
-  Dictionary<int, List<int>> ordering = new Dictionary<int, List<int>>();
-  List<int[]> updates = new List<int[]>();
-
   class OrderComparer : IComparer<int>
   {
     Dictionary<int, List<int>> ordering;
-
-    public OrderComparer(Dictionary<int, List<int>> ordering)
-    {
+    public OrderComparer(Dictionary<int, List<int>> ordering) {
       this.ordering = ordering;
     }
 
     public int Compare(int x, int y)
     {
-      if (ordering.ContainsKey(x))
-      {
-        if (ordering[x].Contains(y))
-          return -1;
-      }
-      if (ordering.ContainsKey(y))
-      {
-        if (ordering[y].Contains(x))
-          return 1;
-      }
-      return 0;
+      if (ordering.ContainsKey(x) && ordering[x].Contains(y))
+        return -1;
+      return 1;
     }
   }
+
+  Dictionary<int, List<int>> ordering = new Dictionary<int, List<int>>();
+  int[][] updates = new int[0][];
 
   public void Input(IEnumerable<string> lines)
   {
@@ -40,8 +30,7 @@ public class Day5 : IAoC
         ordering[pair.First()] = new List<int>();
       ordering[pair.First()].Add(pair.Last());
     }
-    foreach (var update in lines.SkipWhile(s => s.Contains('|') || string.IsNullOrWhiteSpace(s)))
-      updates.Add(update.Split(',').Select(w => int.Parse(w)).ToArray());
+    updates = lines.SkipWhile(s => s.Contains('|') || string.IsNullOrWhiteSpace(s)).Select(l => l.Split(',').Select(w => int.Parse(w)).ToArray()).ToArray();
   }
 
   public void Part1()
