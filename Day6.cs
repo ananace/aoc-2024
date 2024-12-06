@@ -17,11 +17,7 @@ public class Day6 : IAoC
     public static Point operator+(Point l, Point r) {
       return new Point(l.X + r.X, l.Y + r.Y);
     }
-    public static Point operator-(Point l, Point r) {
-      return new Point(l.X - r.X, l.Y - r.Y);
-    }
-    public bool Equals(Point other)
-    {
+    public bool Equals(Point other) {
       return X == other.X && Y == other.Y;
     }
   }
@@ -67,17 +63,9 @@ public class Day6 : IAoC
   }
   public void Part2()
   {
-    HashSet<Point> loopPoints = new HashSet<Point>();
-    foreach (var point in path)
-    {
-      if (point.Equals(guard))
-        continue;
+    int loopPoints = path.AsParallel().Where(p => !p.Equals(guard) && WalkArea(p).loop).Count();
 
-      if (WalkArea(point).loop)
-        loopPoints.Add(point);
-    }
-
-    Console.WriteLine($"Valid loop points: {loopPoints.Count}");
+    Console.WriteLine($"Valid loop points: {loopPoints}");
   }
 
   (IEnumerable<Point> path, bool loop) WalkArea(Point? obstruction = null)
