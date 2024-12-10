@@ -13,14 +13,14 @@ public class Runner
   }
   public void RunAll()
   {
-    foreach (var day in ImplementedDays)
+    foreach (var day in ImplementedDays.OrderBy(d => d.Day))
       RunFor(day);
   }
 
   public void RunDay(int? day)
   {
     bool executed = false;
-    foreach (var d in ImplementedDays.Reverse())
+    foreach (var d in ImplementedDays.OrderBy(d => d.Day).Reverse())
     {
       if (day == null || d.Day == day)
       {
