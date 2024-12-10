@@ -13,8 +13,7 @@ public class Day10 : IAoC
     heights = string.Concat(lines).Select(c => int.Parse(c.ToString())).ToArray();
   }
 
-  int trailends = 0, trailheads = 0;
-  
+  int trails = 0, trailheads = 0;
   public void PreCalc()
   {
     for (int y = 0; y < size.Item2; ++y)
@@ -22,7 +21,7 @@ public class Day10 : IAoC
         if (heights[y * size.Item1 + x] == 0)
         {
           var unique = new HashSet<(int, int)>();
-          trailends += CountTrails((x, y), unique);
+          trails += CountTrails((x, y), unique);
           trailheads += unique.Count;
         }
   }
@@ -33,12 +32,12 @@ public class Day10 : IAoC
   }
   public void Part2()
   {
-    Console.WriteLine($"Trailheads: {trailends}");
+    Console.WriteLine($"Trails: {trails}");
   }
 
   int CountTrails((int, int) from, HashSet<(int,int)> unique)
   {
-    int trails = 0;
+    int found = 0;
 
     List<(int,int)> toSearch = new List<(int, int)>();
     toSearch.Add(from);
@@ -66,7 +65,7 @@ public class Day10 : IAoC
           if (newHeight == 9)
           {
             unique.Add(newAt);
-            trails++;
+            found++;
             continue;
           }
 
@@ -74,6 +73,6 @@ public class Day10 : IAoC
         }
     }
 
-    return trails;
+    return found;
   }
 }
