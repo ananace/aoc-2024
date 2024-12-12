@@ -8,6 +8,10 @@ foreach (var arg in args)
     Console.WriteLine("Forcing use of sample data.");
     runner.ForceSample = true;
   }
+  else if (arg == "-v" || arg == "--verbose")
+  {
+    runner.PrintTimes = true;
+  }
   else if (arg == "all")
   {
     executed = true;
@@ -23,6 +27,7 @@ foreach (var arg in args)
     Console.WriteLine($"Usage: {System.AppDomain.CurrentDomain.FriendlyName} [-s] [DAYS...]");
     Console.WriteLine();
     Console.WriteLine("  -s --sample    Use sample data even if real data is available");
+    Console.WriteLine("  -v --verbose   Print running times");
     Console.WriteLine();
     Console.WriteLine("The keyword 'all' can be used to execute all implemented days.\nIf no day is specified then the last one will be run.");
     return;

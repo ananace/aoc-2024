@@ -6,6 +6,7 @@ namespace AdventOfCode2024;
 public class Runner
 {
   public bool ForceSample { get; set; } = false;
+  public bool PrintTimes { get; set; } = false;
 
   public void RunLast()
   {
@@ -38,7 +39,7 @@ public class Runner
   {
     int dayNum = day.Day;
 
-    Console.WriteLine($"Running {dayNum}...");
+    Console.WriteLine($"Running day {dayNum}...");
     var inputExts = new List<string>{ "inp.real", "inp", "inp.sample" };
 
     if (ForceSample)
@@ -55,16 +56,30 @@ public class Runner
     var data = File.ReadLines(input);
     day.Input(data.Select(l => l.Trim()));
 
+    DateTime before, after;
+
     if (day.GetType().GetMethod("PreCalc") is MethodInfo meth)
     {
       Console.WriteLine("- Running pre-calculate...");
+      before = DateTime.Now;
       meth.Invoke(day, null);
+      after = DateTime.Now;
+      if (PrintTimes)
+        Console.WriteLine($"<- {prettyTime(after - before)} ->");
     }
 
     Console.WriteLine("- Part 1...");
+    before = DateTime.Now;
     day.Part1();
+    after = DateTime.Now;
+    if (PrintTimes)
+      Console.WriteLine($"<- {prettyTime(after - before)} ->");
     Console.WriteLine("- Part 2...");
+    before = DateTime.Now;
     day.Part2();
+    after = DateTime.Now;
+    if (PrintTimes)
+      Console.WriteLine($"<- {prettyTime(after - before)} ->");
   }
 
   IEnumerable<IAoC> ImplementedDays {
@@ -92,5 +107,21 @@ public class Runner
         yield return instance;
       }
     }
+  }
+
+  string prettyTime(TimeSpan span)
+  {
+    var sb = new System.Text.StringBuilder();
+    if (span.TotalDays > 1)
+      sb.Append(span.Days).Append("d");
+    if (span.TotalHours > 1)
+      sb.Append(span.Hours).Append("h");
+    if (span.TotalMinutes > 1)
+      sb.Append(span.Minutes).Append("m");
+    if (span.TotalSeconds > 1)
+      sb.Append(span.Seconds).Append("s");
+    sb.Append(span.Milliseconds).Append("ms");
+
+    return sb.ToString();
   }
 }
